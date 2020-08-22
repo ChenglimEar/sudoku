@@ -52,8 +52,8 @@ class Solver:
     def print_board(self):
         """Call this to print the current state of the board"""
 
-        for i in range(9):
-            print(self.board[i])
+        for row in self.board:
+            print(row)
                 
 if __name__ == '__main__':
     board = [[3,0,6,5,0,8,4,0,0],
