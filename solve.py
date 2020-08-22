@@ -39,15 +39,16 @@ class Solver:
         if pos is None:
             return True
         x,y = pos
-        if self.board[y][x] == 0:
-            for i in range(1,10):
-                # check num in box
-                if self.valid_in_box(x,y,i) and self.valid_in_horz(y,i) and self.valid_in_vert(x,i):
-                    self.board[y][x] = i
-                    if self.solve():
-                        return True
-                    else:
-                        self.board[y][x] = 0
+        for i in range(1,10):
+            # check num in box
+            if self.valid_in_box(x,y,i) and self.valid_in_horz(y,i) and self.valid_in_vert(x,i):
+                self.board[y][x] = i
+                # keep checking the next open slot
+                if self.solve():
+                    return True
+                else:
+                    # didn't pan out, so undo and continue to try another number
+                    self.board[y][x] = 0
         return False
                                         
     def print_board(self):
@@ -69,6 +70,8 @@ if __name__ == '__main__':
     solver = Solver(board)
     solver.print_board()
     print()
-    solver.solve()
-    solver.print_board()
+    if solver.solve():
+        solver.print_board()
+    else:
+        print("No Solution!")
 
