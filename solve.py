@@ -1,10 +1,8 @@
 class Solver:
-    def __init__(self,board,choices=None):
-        if choices is None:
-            choices = {}
+    def __init__(self,board):
         self.board = board
         
-    def valid_in_box(self,x,y,num):
+    def __valid_in_box(self,x,y,num):
         box_x = (x // 3) * 3
         box_y = (y // 3) * 3
         for rel_x in range(3):
@@ -13,19 +11,19 @@ class Solver:
                     return False
         return True
             
-    def valid_in_horz(self,y,num):
+    def __valid_in_horz(self,y,num):
         for x in range(9):
             if self.board[y][x] == num:
                 return False
         return True
     
-    def valid_in_vert(self,x,num):
+    def __valid_in_vert(self,x,num):
         for y in range(9):
             if self.board[y][x] == num:
                 return False
         return True
     
-    def find_empty(self):
+    def __find_empty(self):
         for x in range(len(self.board[0])):
             for y in range(len(self.board)):
                 if self.board[y][x] == 0:
@@ -35,13 +33,13 @@ class Solver:
     def solve(self):
         """The primary method to call to solve the board in this class"""
 
-        pos = self.find_empty()
+        pos = self.__find_empty()
         if pos is None:
             return True
         x,y = pos
         for i in range(1,10):
             # check num in box
-            if self.valid_in_box(x,y,i) and self.valid_in_horz(y,i) and self.valid_in_vert(x,i):
+            if self.__valid_in_box(x,y,i) and self.__valid_in_horz(y,i) and self.__valid_in_vert(x,i):
                 self.board[y][x] = i
                 # keep checking the next open slot
                 if self.solve():
